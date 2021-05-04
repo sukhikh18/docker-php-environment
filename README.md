@@ -17,7 +17,7 @@ Restore database commands
 ```
 docker exec -i ${PROJECT}_db bash
 cd /var/www
-cat backup.sql | mysql --host=10.100.0.2 --user=bitrix --password=bitrix sitemanager
+cat backup.sql | mysql --host=db --user=bitrix --password=bitrix sitemanager
 ```
 > Use db instead localhost in form for database connections.
 
