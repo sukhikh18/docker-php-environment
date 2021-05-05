@@ -5,8 +5,9 @@ services:
         build:
             context: ./docker/${PHP_VERSION}
         container_name: ${PROJECT}_php
-        volumes_from:
-            - source
+        volumes:
+            # - ./logs/php:/var/log/php
+            - ./www/${PROJECT}:/var/www/default
         environment:
             PHP_IDE_CONFIG: "serverName=Docker"
         ports:
@@ -19,10 +20,9 @@ services:
         build:
             context: ./docker/${WEB_SERVER_TYPE}
         container_name: ${PROJECT}_webserver
-        depends_on:
-            - source
-        volumes_from:
-            - source
+        volumes:
+            - ./logs/${WEB_SERVER_TYPE}:/var/log/${WEB_SERVER_TYPE}
+            - ./www/${PROJECT}:/var/www/default
         ports:
             - '${INTERFACE}:80:80'
             - '${INTERFACE}:443:443'
@@ -35,8 +35,8 @@ services:
             context: ./docker/${DB_SERVER_TYPE}
         platform: linux/amd64
         container_name: ${PROJECT}_db
-        volumes_from:
-            - source
+        volumes:
+            - ./data/db:/var/lib/mysql
         ports:
             - '${INTERFACE}:3306:3306'
         environment:
@@ -46,23 +46,3 @@ services:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         command: mysqld --sql-mode=""
         restart: always
-
-    adminer:
-        image: dockette/adminer:full
-        container_name: ${PROJECT}adminer
-        links:
-            - db:db
-        ports:
-            - '${INTERFACE}:8080:80'
-        environment:
-            UPLOAD: 1024M # upload_max_filesize, post_max_size
-
-    source:
-        image: alpine:latest
-        container_name: ${PROJECT}_source
-        volumes:
-            - ./logs/${WEB_SERVER_TYPE}:/var/log/${WEB_SERVER_TYPE}
-            # - ./logs/php:/var/log/php
-            # - ./logs/db:/var/log/mysql
-            - ./data/db:/var/lib/mysql
-            - ./www/${PROJECT}:/var/www/default
