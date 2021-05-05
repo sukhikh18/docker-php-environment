@@ -28,7 +28,7 @@ RUN apt-get update \
 RUN pecl install xdebug \
     docker-php-ext-enable xdebug
 
-# Install Docker
+# Install Composer
 RUN wget https://getcomposer.org/installer -O - -q \
    | php -- --install-dir=/bin --filename=composer --quiet
 
