@@ -65,4 +65,4 @@ services:
             # - ./logs/php:/var/log/php
             # - ./logs/db:/var/log/mysql
             - ./data/db:/var/lib/mysql
-            - ./www/public:/var/www
+            - ./www/${PROJECT}:/var/www/default
