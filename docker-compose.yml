@@ -2,43 +2,37 @@ version: '3'
 
 services:
     php:
-        build:
-            context: ./docker/${PHP_VERSION}
+        build: ./${PHP_VERSION}
         container_name: ${PROJECT}_php
         volumes:
-            # - ./logs/php:/var/log/php
             - ./www/${PROJECT}:/var/www/default
         environment:
             PHP_IDE_CONFIG: "serverName=Docker"
         ports:
-            - '127.0.0.1:9000:9000'
+            - '9000:9000'
         links:
             - db
         restart: always
 
-    web_server:
-        build:
-            context: ./docker/${WEB_SERVER_TYPE}
-        container_name: ${PROJECT}_webserver
+    nginx:
+        build: ./nginx
+        container_name: ${PROJECT}_nginx
         volumes:
-            - ./logs/${WEB_SERVER_TYPE}:/var/log/${WEB_SERVER_TYPE}
             - ./www/${PROJECT}:/var/www/default
         ports:
-            - '${INTERFACE}:80:80'
-            - '${INTERFACE}:443:443'
+            - '80:80'
+            - '443:443'
         links:
             - php
         restart: always
 
     db:
-        build:
-            context: ./docker/${DB_SERVER_TYPE}
-        platform: linux/amd64
+        build: ./mysql
         container_name: ${PROJECT}_db
         volumes:
-            - ./data/db:/var/lib/mysql
+            - ${MYSQL_PATH}:/var/lib/mysql
         ports:
-            - '${INTERFACE}:3306:3306'
+            - '3306:3306'
         environment:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
