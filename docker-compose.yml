@@ -27,7 +27,7 @@ services:
         restart: always
 
     db:
-        build: ./docker/{DB_CONNECTION}
+        build: ./docker/${DB_CONNECTION}
         container_name: ${DOCKER_NAME}_db
         volumes:
             - ${DB_PATH}:/var/lib/mysql
