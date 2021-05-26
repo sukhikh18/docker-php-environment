@@ -3,7 +3,7 @@ version: '3'
 services:
     php:
         build: ./docker/${PHP_VERSION}
-        container_name: ${PROJECT}_php
+        container_name: ${DOCKER_NAME}_php
         volumes:
             - ./:/var/www
         environment:
@@ -16,7 +16,7 @@ services:
 
     nginx:
         build: ./docker/nginx
-        container_name: ${PROJECT}_nginx
+        container_name: ${DOCKER_NAME}_nginx
         volumes:
             - ./:/var/www:ro
         ports:
@@ -28,7 +28,7 @@ services:
 
     db:
         build: ./docker/mysql
-        container_name: ${PROJECT}_db
+        container_name: ${DOCKER_NAME}_db
         volumes:
             - ${DB_PATH}:/var/lib/mysql
             - ./:/var/www:ro
