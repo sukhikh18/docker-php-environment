@@ -22,3 +22,6 @@ cat backup.sql | mysql --host=db --user=admin --password=admin app
 
 ### How to use XDebug
 Add `./www/public` to `/var/www` for `Docker` server.
+
+### For Laravel
+Replace current .env to database block project .env
