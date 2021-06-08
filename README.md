@@ -7,12 +7,13 @@
 - Deployer
 
 ### Quick start
-Move it to your project and run:
+Move you project to `./public` directory and run:
 ```
 docker-compose up -d
 ```
+
 ### Database
-Restore database commands
+Move backup file (for ex. `backup.sql`) to root project directory and use restore database commands:
 ```
 docker exec -i ${PROJECT}_db bash
 cd /var/www/
