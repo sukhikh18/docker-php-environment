@@ -1,7 +1,6 @@
 FROM nginx:1.10
 
-ADD conf/nginx.conf /etc/nginx/
-ADD conf/conf.d/* /etc/nginx/conf.d/
+ADD nginx.conf /etc/nginx/
 
 RUN usermod -u 1000 www-data
 
