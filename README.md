@@ -7,8 +7,9 @@
 - Deployer
 
 ### Quick start
-Move you project to `./public` directory and run:
+Change work directory to public `cd ./public` and run:
 ```
+cp .env.example .env
 docker-compose up -d
 ```
 
