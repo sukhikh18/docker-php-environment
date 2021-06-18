@@ -12,7 +12,6 @@ services:
             - '9000:9000'
         links:
             - db
-        restart: always
 
     nginx:
         build: ./docker/nginx
@@ -24,7 +23,6 @@ services:
             - '443:443'
         links:
             - php
-        restart: always
 
     db:
         build: ./docker/${DB_CONNECTION}
@@ -40,4 +38,3 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         command: mysqld --sql-mode=""
-        restart: always
