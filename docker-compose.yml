@@ -28,7 +28,7 @@ services:
         build: ./docker/${DB_CONNECTION}
         container_name: ${DOCKER_NAME}_db
         volumes:
-            - ${DB_PATH}:/var/lib/mysql
+            - ./data/db::/var/lib/${DB_CONNECTION}
             - ./:/var/www
         ports:
             - '3306:3306'
