@@ -1,3 +1,3 @@
-<?require_once($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/main/include/prolog_before.php");
+<?php
 
-var_dump(\Bitrix\Main\UserFieldTable::getList()->fetchAll());
+echo '<h1>It works!</h1>';
