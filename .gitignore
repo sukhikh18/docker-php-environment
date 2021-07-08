@@ -1,1 +1,5 @@
+/data/
+/vendor/
+/public/
 /.env
+*.lock
