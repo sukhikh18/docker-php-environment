@@ -37,8 +37,8 @@ RUN curl -L https://deployer.org/releases/v4.3.4/deployer.phar > /usr/local/bin/
     && chmod +x /usr/local/bin/dep
 
 # Add configs
-ADD ./php.ini /etc/php/7.2/fpm/conf.d/90-php.ini
-ADD ./php.ini /etc/php/7.2/cli/conf.d/90-php.ini
+ADD ./*.ini /etc/php/7.2/fpm/conf.d/
+ADD ./*.ini /etc/php/7.2/cli/conf.d/
 
 RUN usermod -u 1000 www-data
 
