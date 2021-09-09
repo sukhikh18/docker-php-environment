@@ -1,7 +1,7 @@
 ### Features
 - MySql 5.7
-- Nginx 1.10
-- PHP 7.2
+- Nginx 1.18
+- PHP 7.4
 - XDebug 3
 - Composer
 - Deployer
@@ -25,5 +25,5 @@ cat backup.sql | mysql --host=db --user=admin --password=admin app
 ### How to use XDebug
 Add `./public` to `/var/www/public` for `Docker` server.
 
-### For Laravel
-Replace current .env to database block project .env
+### Dynamic domains
+Try docs.localhost for use`/var/www/docs/` (if it's available `docs/` in root) and show html.
