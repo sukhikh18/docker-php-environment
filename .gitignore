@@ -1,5 +1,4 @@
-/data/
+/docker/data
 /vendor/
-/public/
 /.env
-*.lock
+/*.lock

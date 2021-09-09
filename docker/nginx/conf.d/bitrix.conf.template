@@ -1,8 +1,8 @@
 server {
-    listen 80 deferred reuseport default;
-    listen [::]:80 deferred reuseport default;
+    listen 80 deferred;
+    listen [::]:80 deferred;
 
-    server_name 127.0.0.1 localhost bitrix.cms;
+    server_name 127.0.0.1 localhost ${APP_DOMAIN};
     charset utf-8;
     root /var/www/public;
     index bitrixsetup.php restore.php index.php index.html;
@@ -13,23 +13,22 @@ server {
     # auth_basic "Restricted";
     # auth_basic_user_file /var/www/.htpasswd;
 
-    if (!-e $request_filename) {
-       rewrite  ^(.*)$  /bitrix/urlrewrite.php last;
-    }
-
-    # remove multiple slashes
-    # duplicated slashes sometimes will work and won't be rewritten, fixing it in this configuration is tricky
-    rewrite ^([^.]*?\/)\/+(.*)$ $1$2 permanent;
-
-    # redirect index.php to page without it
-    if ($request_uri ~* "^(.*/)index\.php$") {
-        return 301 $1;
-    }
-
     location / {
+        if (!-e $request_filename) {
+           rewrite  ^(.*)$  /bitrix/urlrewrite.php last;
+        }
+
+        # remove multiple slashes
+        # duplicated slashes sometimes will work and won't be rewritten, fixing it in this configuration is tricky
+        rewrite ^([^.]*?\/)\/+(.*)$ $1$2 permanent;
+
+        # redirect index.php to page without it
+        if ($request_uri ~* "^(.*/)index\.php$") {
+            return 301 $1;
+        }
     }
 
-    location ~ (/\.ht|/\.git|/\.gitignore|/composer.*) { deny all; }
+    location ~ (/\.ht*|/\.git|/\.gitignore|/composer.*) { deny all; }
     location ~ (\.settings\.php|/bitrix/backup|/bitrix/updates|/bitrix/modules|/bitrix/php_interface|/bitrix/*_cache|/bitrix/html_pages/\.|/upload/1c_exchange|local/modules|local/php_interface) {
         deny all;
     }
@@ -54,7 +53,7 @@ server {
     location ~* ^.+\.(jpg|jpeg|gif|png|svg|js|css|mp3|ogg|mpe?g|avi|zip|gz|bz2?|rar|eot|otf|ttf|woff|woff2)$ {
         log_not_found off;
         access_log off;
-        expires 30d;
+        expires max;
         add_header Cache-Control public;
         # re-add security header
         add_header X-Content-Type-Options nosniff;
@@ -80,7 +79,7 @@ server {
     }
 
     location = /favicon.png { log_not_found off; access_log off; }
-    location = /robots.txt { log_not_found off; access_log off; }
+    location = /robots.png { log_not_found off; access_log off; }
 
-    error_page 404 /404.php;
+    # error_page 404 /404.php;
 }
