@@ -8,7 +8,7 @@ down:
 	docker-compose down --remove-orphans
 
 install:
-	start
+	up
 	install-composer
 	install-deployer
 	install-xdebug
