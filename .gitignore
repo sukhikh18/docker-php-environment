@@ -1,4 +1,5 @@
 /docker/data
-/vendor/
 /.env
-/*.lock
+
+/app/vendor/
+/app/*.lock
