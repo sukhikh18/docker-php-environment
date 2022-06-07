@@ -27,10 +27,6 @@ RUN apt-get update \
 RUN pecl install xdebug \
     docker-php-ext-enable xdebug
 
-# Install Deployer
-RUN curl -L https://deployer.org/releases/v4.3.4/deployer.phar > /usr/local/bin/dep \
-    && chmod +x /usr/local/bin/dep
-
 # Install Composer
 RUN wget https://getcomposer.org/installer -O - -q \
    | php -- --install-dir=/bin --filename=composer --quiet

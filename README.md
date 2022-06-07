@@ -4,7 +4,6 @@
 - PHP 7.4
 - XDebug 3
 - Composer
-- Deployer
 
 ### Quick start
 Copy environment settings and start docker from project root:
