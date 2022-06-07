@@ -1,6 +1,6 @@
 ### Features
 - MySql 5.7
-- Nginx 1.18
+- Nginx ^1.*
 - PHP 7.4
 - XDebug 3
 - Composer
