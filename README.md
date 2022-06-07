@@ -1,28 +1,44 @@
-### Features
+## Docker заготовка для разработки на php под nginx 
 - MySql 5.7
 - Nginx ^1.*
 - PHP 7.4
 - XDebug 3
 - Composer
 
-### Quick start
-Copy environment settings and start docker from project root:
+
+### Быстрый старт
+Скопируйте пример настроек, отредактируйте и запустите docker-compose.
 ```
 cp .env.example .env
 docker-compose up -d
 ```
 
-### Database
-Move backup file (for ex. `backup.sql`) to root project directory and use restore database commands:
+### База данных
+Используйте папку `./app/backup` для создания/восстановления резервной копии базы данных.  
 ```
-docker exec -i ${PROJECT}_db bash
-cd /var/www/
-cat backup.sql | mysql --host=db --user=admin --password=admin app
+cat /var/www/backup/site*.sql | mysql --host=db --user=admin --password="admin" app
 ```
-> Use db instead localhost for database connections.
+_Для восстановления_
 
-### How to use XDebug
-Add `./public` to `/var/www/public` for `Docker` server.
+```
+mysqldump --user=admin --password="admin" --no-tablespaces app > /var/www/backup/site-`date '+%Y%m%d'`.sql
+```
+_Для создания_
 
-### Dynamic domains
-Try docs.localhost for use`/var/www/docs/` (if it's available `docs/` in root) and show html.
+> Используйте хост `db` вместо `localhost` для соединения с базой данных внутри сайта (контейнера).
+
+### Поддомены
+Сервер читает папки внутри `./app/` при обращении к поддомену.
+К примеру, создайте папку `./app/docs/` для домена docs.localhost
+> Для использования не существующего домена добавляйте правило в hosts файл.
+
+### Ча.в.о.
+
+Как запустить командную строку внутри контейнера? (К примеру, для создания резервной копии базы данных)
+> Командой `docker exec -i ${PROJECT}_db bash`
+
+Как использовать Xdebug?
+> В настройках IDE добавить локальный сервер с указанием абсолютного пути для `./app/public` на `/var/www/public`.
+
+Как исполдьзовать на ARM процессорах?
+> Перед сборкой используйте команду `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
