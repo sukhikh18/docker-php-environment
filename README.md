@@ -1,13 +1,14 @@
 ## Docker заготовка для разработки на php под nginx 
-- MySql 5.7
+- MySql 5.7 | MySql 8 | MariaDB (+ arm)
 - Nginx ^1.*
-- PHP 7.4
-- XDebug 3
+- Memcached
+- PHP 7.4 | PHP 8.0
+- XDebug
 - Composer
-
+- MailHog
 
 ### Быстрый старт
-Скопируйте пример настроек, отредактируйте и запустите docker-compose.
+Скопируйте пример настроек, отредактируйте и запустите docker.
 ```
 cp .env.example .env
 docker-compose up -d
@@ -39,6 +40,3 @@ _Для создания_
 
 Как использовать Xdebug?
 > В настройках IDE добавить локальный сервер с указанием абсолютного пути для `./app/public` на `/var/www/public`.
-
-Как исполдьзовать на ARM процессорах?
-> Перед сборкой используйте команду `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
