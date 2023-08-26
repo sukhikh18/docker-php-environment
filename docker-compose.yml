@@ -2,7 +2,7 @@ version: '3'
 
 services:
     php:
-        build: ./docker/${PHP_VERSION}
+        build: ./docker/php/${PHP_VERSION}
         container_name: ${DOCKER_NAME}_php
         volumes:
             - ./app:/var/www
@@ -19,11 +19,11 @@ services:
         extra_hosts:
             - ${APP_DOMAIN}:${NETWORK_INTERFACE}
         networks:
-            - dockernet
+            - default
 
-    nginx:
+    web:
         build: ./docker/nginx
-        container_name: ${DOCKER_NAME}_nginx
+        container_name: ${DOCKER_NAME}_web
         volumes:
             - ./app:/var/www:ro
             # - ./logs/nginx:/var/log/nginx:ro
@@ -36,25 +36,26 @@ services:
         links:
             - php
         networks:
-            dockernet:
+            default:
                 ipv4_address: ${NETWORK_INTERFACE}
 
     db:
-        build: ./docker/${DB_VERSION}
+        build: ./docker/db/${DB_VERSION}
         container_name: ${DOCKER_NAME}_db
+        command: ["--default-authentication-plugin=mysql_native_password"]
         volumes:
-            - ./docker/data/db:/var/lib/${DB_CONNECTION}
+            - ${DB_PATH}:/var/lib/${DB_CONNECTION}
+            # - ./logs/db:/var/log/mysql:ro
             - ./app/backup:/var/www/app/backup
-            # - ./logs/mysql:/var/log/mysql
         ports:
-            - "${DB_PORT}:${DB_PORT}"
+            - "${DB_PORT}:3306"
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
             MYSQL_USER: ${DB_USERNAME}
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         networks:
-            - dockernet
+            - default
 
     mailhog:
         image: mailhog/mailhog
@@ -63,10 +64,10 @@ services:
             - '1025:1025'
             - '8025:8025'
         networks:
-            - dockernet
+            - default
 
 networks:
-    dockernet:
+    default:
         ipam:
             config:
                 - subnet: ${NETWORK_SUBNET}
