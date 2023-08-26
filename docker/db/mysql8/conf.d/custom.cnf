@@ -1,0 +1,32 @@
+[mysqld]
+#general_log = 1
+#general_log_file = /var/log/mysql/general.log
+innodb_file_per_table=1
+innodb_flush_log_at_trx_commit=0
+sync_binlog=0
+innodb_flush_method=O_DIRECT
+transaction-isolation=READ-COMMITTED
+binlog_cache_size=0
+sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+innodb_strict_mode=OFF
+max_connections = 400
+innodb_buffer_pool_size = 6G
+key-buffer-size = 32M
+max-allowed-packet = 1024M
+max-connect-errors = 1000000
+skip-name-resolve
+tmp-table-size = 32M
+max-heap-table-size = 32M
+max-connections = 15000
+thread-cache-size = 5000
+open-files-limit = 150000
+table-definition-cache = 1024
+table-open-cache = 50000
+expire_logs_days = 1
+connect_timeout = 1000000
+net_write_timeout = 1000000
+wait_timeout = 1000000
+interactive_timeout = 1000000
+net_buffer_length = 1M
+net_read_timeout = 1000000
+
