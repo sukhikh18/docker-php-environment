@@ -57,6 +57,9 @@ services:
         networks:
             - default
 
+#    memcached:
+#        image: 'memcached'
+
     mailhog:
         image: mailhog/mailhog
         container_name: ${DOCKER_NAME}_mailhog
