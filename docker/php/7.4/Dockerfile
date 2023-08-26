@@ -1,6 +1,5 @@
 # PHP Dockerfile
 #
-# Package openssh-client is required for deployer.
 # Packages wget git unzip is required for xdebug install
 
 FROM phpdockerio/php74-fpm:latest
@@ -9,7 +8,6 @@ FROM phpdockerio/php74-fpm:latest
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
     wget git unzip \
-    openssh-client \
     php7.4-mbstring \
     php7.4-mysql \
     php7.4-intl \
