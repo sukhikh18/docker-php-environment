@@ -3,8 +3,8 @@
 - Nginx ^1.*
 - Memcached
 - PHP 7.4 | PHP 8.0
-- XDebug
-- Composer
+- XDebug 3
+- Composer 2
 - MailHog
 
 ### Быстрый старт
