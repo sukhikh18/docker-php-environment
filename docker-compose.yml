@@ -9,8 +9,8 @@ services:
             # - ./logs/php:/var/log/php:ro
             # Use for debug config:
             # - ./docker/php/conf.d:/etc/php/7.4/fpm/conf.d
-        environment:
-            PHP_IDE_CONFIG: "serverName=Docker"
+        #environment:
+        #    PHP_IDE_CONFIG: "serverName=Docker"
         ports:
             - "9000:9000"
             - "25:25"
