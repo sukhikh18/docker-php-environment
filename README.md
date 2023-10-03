@@ -1,6 +1,6 @@
 ## Docker заготовка для разработки на php под nginx 
 - MySql 5.7 | MySql 8 | MariaDB (+ arm)
-- Nginx ^1.*
+- Nginx 1
 - PHP 7.4 | PHP 8.0
 - XDebug 3
 - Composer 2
