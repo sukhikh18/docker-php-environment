@@ -1,6 +1,26 @@
 version: '3'
 
 services:
+    db:
+        container_name: ${DOCKER_NAME}_db
+        build: ./docker/db/${DB_VERSION}
+        command: --default-authentication-plugin=mysql_native_password
+        restart: unless-stopped
+        volumes:
+            - ${DB_PATH}:/var/lib/${DB_CONNECTION}
+            # - ./logs/db:/var/log/mysql:ro
+            - ./app/backup:/var/www/app/backup
+        ports:
+            - "${DB_PORT}:3306"
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            TZ: ${DOCKER_TIMEZONE}
+        networks:
+            - default
+
     php:
         container_name: ${DOCKER_NAME}_php
         build:
@@ -44,27 +64,6 @@ services:
             default:
                 ipv4_address: ${NETWORK_INTERFACE}
 
-    db:
-        build: ./docker/db/${DB_VERSION}
-        container_name: ${DOCKER_NAME}_db
-        command: ["--default-authentication-plugin=mysql_native_password"]
-        volumes:
-            - ${DB_PATH}:/var/lib/${DB_CONNECTION}
-            # - ./logs/db:/var/log/mysql:ro
-            - ./app/backup:/var/www/app/backup
-        ports:
-            - "${DB_PORT}:3306"
-        environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_USER: ${DB_USERNAME}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-        networks:
-            - default
-
-#    memcached:
-#        image: 'memcached'
-
     mailhog:
         image: mailhog/mailhog
         container_name: ${DOCKER_NAME}_mailhog
@@ -79,3 +78,9 @@ networks:
         ipam:
             config:
                 - subnet: ${NETWORK_SUBNET}
+
+# Use a restart policy by restart
+# `no`                          Don't automatically restart the container. (Default)
+# `on-failure[:max-retries]`    Restart the container if it exits due to an error, which manifests as a non-zero exit code. Optionally, limit the number of times the Docker daemon attempts to restart the container using the :max-retries option. The on-failure policy only prompts a restart if the container exits with a failure. It doesn't restart the container if the daemon restarts.
+# `always`                      Always restart the container if it stops. If it's manually stopped, it's restarted only when Docker daemon restarts or the container itself is manually restarted. (See the second bullet listed in restart policy details)
+# `unless-stopped`              Similar to always, except that when the container is stopped (manually or otherwise), it isn't restarted even after Docker daemon restarts.
