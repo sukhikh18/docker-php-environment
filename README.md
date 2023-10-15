@@ -8,19 +8,19 @@
 
 ### Быстрый старт
 Скопируйте пример настроек, отредактируйте и запустите docker.
-```
+```bash
 cp .env.example .env
 docker-compose up -d
 ```
 
 ### База данных
 Используйте папку `./app/backup` для создания/восстановления резервной копии базы данных.  
-```
+```bash
 cat /var/www/backup/site*.sql | mysql --host=db --user=admin --password="admin" app
 ```
 _Для восстановления_
 
-```
+```bash
 mysqldump --user=admin --password="admin" --no-tablespaces app > /var/www/backup/site-`date '+%Y%m%d'`.sql
 ```
 _Для создания_
