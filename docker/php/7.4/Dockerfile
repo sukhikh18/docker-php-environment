@@ -17,13 +17,14 @@ RUN apt-get update \
     php7.4-imagick \
     php7.4-opcache \
     php7.4-zip \
+    php7.4-xdebug \
     php-pear php7.4-dev libmcrypt-dev gcc make autoconf libc-dev pkg-config \
     && pecl install mcrypt-1.0.4 \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Install xDebug
-RUN pecl install xdebug \
-    docker-php-ext-enable xdebug
+#RUN pecl install xdebug-2.9.0 \
+#    docker-php-ext-enable xdebug
 
 # Install Composer
 RUN wget https://getcomposer.org/installer -O - -q \

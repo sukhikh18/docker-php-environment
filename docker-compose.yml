@@ -46,7 +46,7 @@ services:
             - default
 
     web:
-        build: ./docker/nginx
+        build: ./docker/${WEB_SERVER}
         container_name: ${DOCKER_NAME}_web
         volumes:
             - ./app:/var/www:ro
