@@ -9,7 +9,7 @@ services:
         volumes:
             - ${DB_PATH}:/var/lib/${DB_CONNECTION}
             # - ./logs/db:/var/log/mysql:ro
-            - ./app/backup:/var/www/app/backup
+            - ./backup:/var/www/app/backup
         ports:
             - "${DB_PORT}:3306"
         environment:
@@ -29,7 +29,7 @@ services:
                 DOCKER_PHP_VERSION: ${PHP_VERSION}
                 TZ: ${DOCKER_TIMEZONE}
         volumes:
-            - ./app:/var/www
+            - ./:/var/www
             # - ./logs/php:/var/log/php:ro
             # Use for debug config:
             # - ./docker/php/conf.d:/etc/php/7.4/fpm/conf.d
@@ -49,7 +49,7 @@ services:
         build: ./docker/${WEB_SERVER}
         container_name: ${DOCKER_NAME}_web
         volumes:
-            - ./app:/var/www:ro
+            - ./:/var/www:ro
             # - ./logs/nginx:/var/log/nginx:ro
             # Use for debug config:
             # - ./docker/nginx/conf.d:/etc/nginx/conf.d
