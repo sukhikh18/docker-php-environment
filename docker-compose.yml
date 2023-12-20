@@ -50,9 +50,9 @@ services:
         container_name: ${DOCKER_NAME}_web
         volumes:
             - ./:/var/www:ro
+            # For debug config:
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
             # - ./logs/nginx:/var/log/nginx:ro
-            # Use for debug config:
-            # - ./docker/nginx/conf.d:/etc/nginx/conf.d
         ports:
             - "${WEB_PORT}:80"
         links:
