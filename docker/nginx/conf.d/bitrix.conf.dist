@@ -1,17 +1,15 @@
+
 server {
     listen 80;
     listen [::]:80;
-
-    server_name bitrix.localhost;
-    charset utf-8;
+    ## Your website name goes here.
+    server_name 127.0.0.1 localhost;
+    ## Your only path reference.
     root /var/www/public;
     index bitrixsetup.php restore.php index.php index.html;
 
-    access_log /var/log/nginx/bitrix/access.log;
-    error_log /var/log/nginx/bitrix/error.log;
-
-    # auth_basic "Restricted";
-    # auth_basic_user_file /var/www/.htpasswd;
+    include conf.d/global/common.conf;
+    include conf.d/global/restrictions.conf;
 
     location / {
         if (!-e $request_filename) {
@@ -62,24 +60,5 @@ server {
     # Disable access for non-static assets (not js and css) in cache location
     location ~* ^/bitrix/cache { deny all; }
 
-    location ~ \.php$ {
-        # redirect index.php to page without it
-        if ($request_uri ~* "^(.*/)index\.php$") {
-            return 301 $1;
-        }
-
-        include fastcgi_params;
-        fastcgi_pass php:9000;
-        fastcgi_index index.php;
-        fastcgi_send_timeout 21600;
-        fastcgi_read_timeout 21600;
-        # make SERVER_NAME behave same as HTTP_HOST
-        fastcgi_param SERVER_NAME $host;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    location = /favicon.png { log_not_found off; access_log off; }
-    location = /robots.txt { log_not_found off; access_log off; }
-
-    # error_page 404 /404.php;
+    include conf.d/global/php.conf;
 }
