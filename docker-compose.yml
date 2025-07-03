@@ -30,9 +30,12 @@ services:
                 TZ: ${DOCKER_TIMEZONE}
         volumes:
             - ./:/var/www
+            - ./docker/php/8.4/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
             # - ./logs/php:/var/log/php:ro
             # Use for debug config:
             # - ./docker/php/conf.d:/etc/php/7.4/fpm/conf.d
+        ports:
+            - 9001:9001 # Supervisor UI
         environment:
             PHP_IDE_CONFIG: "serverName=Docker"
         links:

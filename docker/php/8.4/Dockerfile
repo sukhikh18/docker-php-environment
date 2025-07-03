@@ -28,50 +28,25 @@ RUN apt-get update \
         php8.4-readline \
         php8.4-xml \
         php8.4-zip \
+    	supervisor \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* ~/.composer
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-CMD ["php", "-a"]
-
-### FPM ###
-
-FROM cli AS fpm
-
-# Install FPM and required base packages
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-#   libmcrypt-dev git gcc make autoconf libc-dev pkg-config \
-    php8.4-fpm \
-    php8.4-mysql \
-#    php8.4-intl \
-#    php8.4-interbase \
-#    php8.4-soap \
-#    php8.4-gd \
-#    php8.4-imagick \
-#    php8.4-dev \
-    php8.4-xdebug \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-
-STOPSIGNAL SIGQUIT
+#CMD ["php", "-a"]
 
 # PHP-FPM packages need a nudge to make them docker-friendly
 COPY overrides.conf /etc/php/8.4/fpm/pool.d/z-overrides.conf
 
-CMD ["/usr/sbin/php-fpm8.4", "-O" ]
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# CMD ["/usr/sbin/php-fpm8.4", "-O" ]
+CMD ["/usr/bin/supervisord"]
 
 # Open up fcgi port
 EXPOSE 9000
 
-# Install MailHog
-RUN curl -L https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 > \
-    /usr/local/bin/mhsendmail && chmod +x /usr/local/bin/mhsendmail
-
-# Configure
-ADD ./conf.d/*.ini /etc/php/8.1/fpm/conf.d/
-ADD ./conf.d/*.ini /etc/php/8.1/cli/conf.d/
+ADD ./conf.d/*.ini /etc/php/8.4/cli/conf.d/
 
 # RUN usermod -u 1000 www-data
 
