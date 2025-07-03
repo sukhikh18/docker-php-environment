@@ -10,6 +10,7 @@ services:
             - ${DB_PATH}:/var/lib/${DB_CONNECTION}
             # - ./logs/db:/var/log/mysql:ro
             - ./backup:/var/www/app/backup
+            - ./backup/init:/docker-entrypoint-initdb.d
         ports:
             - ${DB_PORT}:3306
         environment:
