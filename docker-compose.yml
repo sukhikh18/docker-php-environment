@@ -71,6 +71,19 @@ services:
         networks:
             - default
 
+    rabbitmq:
+        image: rabbitmq:4-management
+        hostname: rabbitmq
+        restart: unless-stopped
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RMQ_USERNAME}
+            - RABBITMQ_DEFAULT_PASS=${RMQ_PASSWORD}
+        volumes:
+            - ${RMQ_PATH}:/var/lib/rabbitmq
+        ports:
+            - 15672:15672
+            - 5672:5672
+
 networks:
     default:
         ipam:
