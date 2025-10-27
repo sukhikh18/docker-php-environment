@@ -70,8 +70,8 @@ RUN curl -L https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsen
     /usr/local/bin/mhsendmail && chmod +x /usr/local/bin/mhsendmail
 
 # Configure
-ADD ./conf.d/*.ini /etc/php/8.1/fpm/conf.d/
-ADD ./conf.d/*.ini /etc/php/8.1/cli/conf.d/
+ADD ./conf.d/*.ini /etc/php/8.4/fpm/conf.d/
+ADD ./conf.d/*.ini /etc/php/8.4/cli/conf.d/
 
 # RUN usermod -u 1000 www-data
 
